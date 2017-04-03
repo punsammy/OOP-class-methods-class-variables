@@ -39,3 +39,9 @@ class BankAccount
     @balance = @balance - amount
   end
 end
+
+amandasaccount = BankAccount.new
+puts amandasaccount.inspect
+puts amandasaccount.deposit(200)
+puts amandasaccount.balance
+puts amandasaccount.total_funds
