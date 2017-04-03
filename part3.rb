@@ -2,7 +2,7 @@
 
 class Zombie
 
-@@horde [] #will contain collection of all zombies
+@@horde = [] #will contain collection of all zombies
 @@plague_level = 10 #increase over time
 @@max_speed = 5 #won't change
 @@max_strength = 8 #won't change
@@ -32,7 +32,6 @@ class Zombie
       zombie = Zombie.new(rand(@@max_speed), rand(@@max_strength))
       @@horde.push(zombie)
     end
-
   end
 
   def self.increase_plague_level
@@ -40,7 +39,7 @@ class Zombie
   end
 
   def initialize(speed, strength)
-    if speed > @@maxx_speed
+    if speed > @@max_speed
       @speed = @@default_speed
     else
       @speed = speed
@@ -50,7 +49,6 @@ class Zombie
     else
       @strength = strength
     end
-    @@horde << self
   end
 
   def encounter
@@ -71,5 +69,16 @@ class Zombie
   def survive_attack?
     rand(@@max_strength + 1) > @strength
   end
-
 end
+
+
+devon = Zombie.new(12,8)
+devon.encounter
+Zombie.new_day
+amanda = Zombie.new(6,9)
+amanda.survive_attack?
+amanda.encounter
+Zombie.increase_plague_level
+Zombie.spawn
+hark = Zombie.new(4,8)
+hark.survive_attack?
