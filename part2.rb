@@ -1,5 +1,6 @@
 #Book Lending
-class Book
+require 'date'
+class Books
 
   @@on_shelf = []
 
@@ -7,27 +8,24 @@ class Book
 
   attr_accessor :due_date
 
-  def initialize(title, author=N/A,isbn=N/A)
+  def initialize(title)
     @title = title
-    @author = author
-    @isbn = isbn
   end
 
   def borrow
-    if title.lent_out? == false
+    if lent_out
       return "#{@title} is already out"
     else
-      @@on_shelf.delete(self)
       @@on_loan << self
-      time = Time.now
-      @@borrow_date = Time.day
+      @@on_shelf.delete(self)
+      @@borrow_date = Time.now.to_date
     end
   end
 
   def return_to_library
-    if self.lent_out? == true
-      @@on_loan.delete(self)
+    if lent_out
       @@on_shelf << self
+      @@on_loan.delete(self)
       @@due_date = nil
       @@borrow_date = nil
       puts "#{@title} has been returned"
@@ -37,8 +35,12 @@ class Book
     end
   end
 
-  def lent_out?
-    if @@on_loan.include?(self) == true
+  def name
+    return @title
+  end
+
+  def lent_out
+    if @@on_loan.include?(@title) == true
       puts "#{@title} is alreaedy lent out"
       return true
     else
@@ -47,22 +49,22 @@ class Book
     end
   end
 
-  def self.create
-    new_book = Books.new
-    @@on_shelf << new_book
-    return on_shelf
+  def current_due_date
+    return @@borrow_date + 5
   end
 
-  def self.current_due_date
-    @@due_date = @@borrow_date + 5
-  end
-
-  def self.overdue_books
-
-  end
+  # def self.overdue_books
+  #
+  # end
 
   def self.browse
-    @@on_shelf.sample
+    return @@on_shelf.sample.name
+  end
+
+  def self.print_shelf
+    @@on_shelf.each do |book|
+      puts book.name
+    end
   end
 
   def self.available
@@ -73,4 +75,19 @@ class Book
     @@on_loan
   end
 
+  def self.create(title)
+    new_book = Books.new(title)
+    @@on_shelf << new_book
+    return new_book
+  end
+
 end
+
+newbook = Books.create('newbook')
+bottle = Books.create('bottle')
+puts bottle.name
+pen = Books.create('pen')
+puts Books.browse
+puts newbook.borrow
+puts newbook.current_due_date
+puts newbook.return_to_library

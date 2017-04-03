@@ -1,10 +1,10 @@
 class BankAccount
 
-  @@interest_rate = 0.05
-
-  @@accounts = []
 
   attr_accessor :balance
+
+  @@accounts = []
+  @@interest_rate = 0.05
 
   def initialize
     @balance = 0
@@ -13,22 +13,21 @@ class BankAccount
   def self.create
     new_account = BankAccount.new
     @@accounts << new_account
-    return account
+    return new_account
   end
 
   def self.total_funds
     total = 0
-    @@account.each do |account|
+    @@accounts.each do |account|
       total = total + account.balance
     end
     return total
   end
 
   def self.interest_time
-    @@account.each do |account|
-      @balance = @balance + (@balance*@@interest_rate)
+    @@accounts.each do |account|
+      account.balance += account.balance*@@interest_rate
     end
-    return @balance
   end
 
   def deposit(amount)
@@ -40,8 +39,17 @@ class BankAccount
   end
 end
 
-amandasaccount = BankAccount.new
-puts amandasaccount.inspect
-puts amandasaccount.deposit(200)
-puts amandasaccount.balance
-puts amandasaccount.total_funds
+amanda = BankAccount.create
+puts amanda.inspect
+puts amanda.deposit(200)
+puts amanda.balance
+sean = BankAccount.create
+puts sean.deposit(230)
+puts sean.balance
+puts BankAccount.total_funds
+gurjant = BankAccount.create
+puts gurjant.deposit(328432)
+puts BankAccount.total_funds
+BankAccount.interest_time
+puts BankAccount.total_funds
+puts sean.balance 

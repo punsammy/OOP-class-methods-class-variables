@@ -1,0 +1,9 @@
+#Vampires
+class Vampire
+
+
+
+
+
+
+end
